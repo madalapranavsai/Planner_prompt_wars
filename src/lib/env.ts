@@ -2,7 +2,11 @@ import "server-only";
 import { z } from "zod";
 
 const ServerEnvSchema = z.object({
-  GEMINI_API_KEY: z.string().trim().min(1).optional(),
+  GEMINI_API_KEY: z
+    .string()
+    .trim()
+    .transform((val) => (val === "" ? undefined : val))
+    .optional(),
   GEMINI_MODEL: z.string().trim().min(1).default("gemini-3.8-flash"),
   AI_PROVIDER: z.enum(["gemini", "mock"]).default("gemini"),
   AI_DAILY_CALL_CAP: z.coerce.number().int().min(1).default(500),
