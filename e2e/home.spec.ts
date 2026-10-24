@@ -16,4 +16,14 @@ test.describe("Home Page", () => {
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
     expect(accessibilityScanResults.violations).toEqual([]);
   });
+
+  test("serves strict CSP and security headers", async ({ page }) => {
+    const response = await page.goto("/");
+    expect(response).not.toBeNull();
+    const headers = response!.headers();
+    expect(headers["content-security-policy"]).toContain("default-src 'self'");
+    expect(headers["content-security-policy"]).toContain("frame-ancestors 'none'");
+    expect(headers["x-content-type-options"]).toBe("nosniff");
+    expect(headers["x-frame-options"]).toBe("DENY");
+  });
 });
