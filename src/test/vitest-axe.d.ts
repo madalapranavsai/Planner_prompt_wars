@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import "vitest";
 import type { AxeMatchers } from "vitest-axe/matchers";
 
