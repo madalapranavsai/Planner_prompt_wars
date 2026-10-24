@@ -7,6 +7,7 @@ import { IntakeWizard } from "@/features/intake/components/IntakeWizard";
 import { BudgetView } from "@/features/budget/components/BudgetView";
 import { TimelineView } from "@/features/timeline/components/TimelineView";
 import { WhatIfView } from "@/features/revision/components/WhatIfView";
+import { VendorComparatorView } from "@/features/vendors/components/VendorComparatorView";
 import { LiveRegion } from "@/components/LiveRegion";
 import { EventProfile, Plan } from "@/lib/schemas";
 import { formatINR } from "@/lib/money";
@@ -292,19 +293,7 @@ export default function Home() {
 
               {selectedTab === "timeline" && <TimelineView plan={plan} />}
 
-              {selectedTab === "vendors" && (
-                <div className="p-8 rounded-3xl bg-slate-900/40 border border-slate-800 text-center space-y-3">
-                  <div className="text-3xl">📋</div>
-                  <h3 className="text-lg font-bold text-white">Vendor Quote Comparator</h3>
-                  <p className="text-xs text-slate-400 max-w-md mx-auto">
-                    Compare vendor quotes side-by-side with GST calculation, unbundling hidden
-                    charges, and auto-generated inquiry checklists.
-                  </p>
-                  <p className="text-xs font-semibold text-amber-400">
-                    Phase 5 Vendor Engine coming up next!
-                  </p>
-                </div>
-              )}
+              {selectedTab === "vendors" && <VendorComparatorView />}
 
               {selectedTab === "revisions" && <WhatIfView />}
             </div>
