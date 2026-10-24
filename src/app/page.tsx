@@ -6,6 +6,7 @@ import { useHydrated } from "@/lib/useHydrated";
 import { IntakeWizard } from "@/features/intake/components/IntakeWizard";
 import { BudgetView } from "@/features/budget/components/BudgetView";
 import { TimelineView } from "@/features/timeline/components/TimelineView";
+import { WhatIfView } from "@/features/revision/components/WhatIfView";
 import { LiveRegion } from "@/components/LiveRegion";
 import { EventProfile, Plan } from "@/lib/schemas";
 import { formatINR } from "@/lib/money";
@@ -305,22 +306,7 @@ export default function Home() {
                 </div>
               )}
 
-              {selectedTab === "revisions" && (
-                <div className="p-8 rounded-3xl bg-slate-900/40 border border-slate-800 text-center space-y-3">
-                  <div className="text-3xl">🔮</div>
-                  <h3 className="text-lg font-bold text-white">
-                    Live &ldquo;What-If&rdquo; Plan Revisions
-                  </h3>
-                  <p className="text-xs text-slate-400 max-w-md mx-auto">
-                    Throw unexpected curveballs (e.g. &ldquo;Guest count surges by 50&rdquo;,
-                    &ldquo;Budget cut by 15%&rdquo;, &ldquo;Event date moved 3 weeks earlier&rdquo;)
-                    and see the instant Before vs After diff.
-                  </p>
-                  <p className="text-xs font-semibold text-amber-400">
-                    Phase 4 Revision Engine coming up next!
-                  </p>
-                </div>
-              )}
+              {selectedTab === "revisions" && <WhatIfView />}
             </div>
           </div>
         )}

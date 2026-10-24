@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { Plan, PLAN_SCHEMA_VERSION } from "@/lib/schemas/plan";
+import { Plan, PlanDiff, PLAN_SCHEMA_VERSION } from "@/lib/schemas/plan";
 import { BudgetLine } from "@/lib/schemas/budgetLine";
 import { confirmQuote, revertQuote, rebalanceBudget } from "@/features/budget/lib/rebalance";
 import { applyTaskUpdate, TaskUpdate } from "@/features/timeline/lib/cascade";
@@ -22,6 +22,9 @@ interface PlanState {
 
   // Timeline Actions
   updateTask: (update: TaskUpdate, today: IsoDate) => void;
+
+  // Revision Actions
+  applyRevision: (updatedPlan: Plan, interpretation: string, diff: PlanDiff) => void;
 }
 
 export const usePlanStore = create<PlanState>()(
@@ -89,6 +92,26 @@ export const usePlanStore = create<PlanState>()(
             },
           });
         }
+      },
+
+      applyRevision: (updatedPlan, interpretation, diff) => {
+        const current = get().plan;
+        if (!current) return;
+
+        const revisionEntry = {
+          at: new Date().toISOString(),
+          interpretation,
+          diff,
+        };
+
+        const updatedRevisions = [revisionEntry, ...(current.revisions || [])].slice(0, 20);
+
+        set({
+          plan: {
+            ...updatedPlan,
+            revisions: updatedRevisions,
+          },
+        });
       },
     }),
     {
