@@ -110,30 +110,34 @@ export function WhatIfView() {
   return (
     <div className="space-y-8">
       {/* Simulation Header & Bar */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 backdrop-blur-md shadow-xl space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl space-y-6">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🔮</span>
-              <h2 className="text-xl font-bold text-slate-100">What-If Curveball Simulator</h2>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🔮</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                What-If Curveball Simulator
+              </h2>
             </div>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-slate-300 max-w-2xl leading-relaxed">
               Simulate life changes (guest surges, budget cuts, vendor cancellations, date shifts).
               Code recalculates exact budgets and schedules while strictly preserving locked
               contracts and completed tasks.
             </p>
           </div>
-          <span className="shrink-0 self-start sm:self-auto rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-xs font-bold text-amber-300">
-            Real-time Math Engine
+          <span className="shrink-0 self-start sm:self-auto rounded-full bg-amber-500/10 border border-amber-500/30 px-3.5 py-1 text-xs font-bold text-amber-300 flex items-center gap-1.5 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            Deterministic Rebalance DAG
           </span>
         </div>
 
         {/* Preset Chips */}
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
             Quick Curveball Presets
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {PRESET_CURVEBALLS.map((cb) => (
               <button
                 key={cb.label}
@@ -143,7 +147,7 @@ export function WhatIfView() {
                   handleSimulate(cb.prompt);
                 }}
                 disabled={loading}
-                className="rounded-xl border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-200 hover:border-amber-500/50 hover:bg-slate-700 hover:text-amber-300 transition-all active:scale-95 disabled:opacity-50"
+                className="rounded-2xl border border-slate-700/80 bg-slate-900/80 px-4 py-2 text-xs font-bold text-slate-200 hover:border-amber-400/60 hover:bg-slate-800 hover:text-amber-300 hover:shadow-lg hover:shadow-amber-500/10 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
                 aria-label={`Preset: ${cb.label}`}
               >
                 ⚡ {cb.label}
@@ -167,13 +171,13 @@ export function WhatIfView() {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="e.g. Add 60 guests, cut total budget by ₹50,000, and advance date by 10 days"
               disabled={loading}
-              className="flex-1 rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 transition-all disabled:opacity-50"
+              className="flex-1 rounded-2xl border border-slate-700/80 bg-slate-950/90 px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all disabled:opacity-50 shadow-inner"
               aria-label="Enter curveball or revision instruction"
             />
             <button
               type="submit"
               disabled={loading || !prompt.trim()}
-              className="rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3 text-sm font-bold text-slate-950 hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-7 py-3.5 text-sm font-extrabold text-slate-950 hover:from-amber-400 hover:to-amber-500 shadow-xl shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
               aria-label="Simulate Curveball: Simulate revision scenario"
             >
               {loading ? (
@@ -218,18 +222,15 @@ export function WhatIfView() {
         </h3>
 
         {plan.revisions.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-800 p-6 text-center text-sm text-slate-400">
+          <div className="rounded-3xl border border-dashed border-slate-800 p-8 text-center text-sm text-slate-400 bg-slate-900/30">
             No revisions applied yet. Use the simulator above to adapt your plan to unforeseen
             changes.
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             {plan.revisions.map((rev, idx) => (
-              <div
-                key={idx}
-                className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-3"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2">
+              <div key={idx} className="glass-card p-5 rounded-3xl space-y-3 shadow-lg">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2.5">
                   <div className="flex items-center gap-2">
                     <span className="text-emerald-400 font-bold text-sm">✓ Applied</span>
                     <span className="text-sm font-semibold text-slate-200">
@@ -245,20 +246,21 @@ export function WhatIfView() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                   {rev.diff.profile.length > 0 && (
-                    <div className="rounded-lg bg-slate-800/40 p-2 text-slate-300">
-                      <span className="font-semibold text-slate-400 block mb-1">Profile:</span>
+                    <div className="rounded-2xl bg-slate-950/60 p-3 text-slate-300 border border-slate-800/80">
+                      <span className="font-bold text-slate-400 block mb-1">Profile Updates:</span>
                       {rev.diff.profile.map((p, i) => (
-                        <div key={i}>
-                          {p.field}: {p.before} → {p.after}
+                        <div key={i} className="text-slate-300">
+                          {p.field}: <span className="line-through text-slate-500">{p.before}</span>{" "}
+                          → <span className="text-emerald-300 font-bold">{p.after}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
-                  <div className="rounded-lg bg-slate-800/40 p-2 text-slate-300">
-                    <span className="font-semibold text-slate-400 block mb-1">Budget Changes:</span>
+                  <div className="rounded-2xl bg-slate-950/60 p-3 text-slate-300 border border-slate-800/80">
+                    <span className="font-bold text-slate-400 block mb-1">Budget Changes:</span>
                     {rev.diff.budgetLines
                       .filter((b) => b.delta !== 0)
                       .slice(0, 3)

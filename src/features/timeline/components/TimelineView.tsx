@@ -147,42 +147,58 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
   return (
     <div className="space-y-6">
       {/* Top Header & Stats */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl shadow-xl">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-bold text-white tracking-tight">Timeline & Milestones</h2>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-              DAG Forward/Backward Pass
-            </span>
-          </div>
-          <p className="text-sm text-slate-400 mt-1">
-            Target Event Date:{" "}
-            <span className="text-white font-medium">
-              {formatDisplayDate(plan.profile.eventDate)}
-            </span>{" "}
-            • Dates represent latest hard deadlines with buffer slack.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="px-3.5 py-2 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-xs text-slate-400">Total</div>
-            <div className="text-lg font-bold text-white">{stats.total}</div>
-          </div>
-          <div className="px-3.5 py-2 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center">
-            <div className="text-xs text-emerald-400">Done</div>
-            <div className="text-lg font-bold text-emerald-300">{stats.completed}</div>
-          </div>
-          <div className="px-3.5 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center">
-            <div className="text-xs text-amber-400">Critical</div>
-            <div className="text-lg font-bold text-amber-300">{stats.critical}</div>
-          </div>
-          {stats.delayed > 0 && (
-            <div className="px-3.5 py-2 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-center">
-              <div className="text-xs text-rose-400">Delayed</div>
-              <div className="text-lg font-bold text-rose-300">{stats.delayed}</div>
+      <div className="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-2xl">⏳</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Timeline & Milestones
+              </h2>
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                DAG Topological Flow
+              </span>
             </div>
-          )}
+            <p className="text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+              Target Celebration Date:{" "}
+              <span className="text-amber-300 font-bold">
+                {formatDisplayDate(plan.profile.eventDate)}
+              </span>{" "}
+              • Topological schedule calculated using forward & backward passes. Dates represent
+              required completion deadlines with contingency slack.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center min-w-[70px] shadow-inner">
+              <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                Total
+              </div>
+              <div className="text-xl font-black text-white">{stats.total}</div>
+            </div>
+            <div className="px-4 py-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center min-w-[70px] shadow-inner">
+              <div className="text-[10px] uppercase font-bold tracking-wider text-emerald-400">
+                Done
+              </div>
+              <div className="text-xl font-black text-emerald-300">{stats.completed}</div>
+            </div>
+            <div className="px-4 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-center min-w-[70px] shadow-inner">
+              <div className="text-[10px] uppercase font-bold tracking-wider text-amber-400">
+                Critical
+              </div>
+              <div className="text-xl font-black text-amber-300">{stats.critical}</div>
+            </div>
+            {stats.delayed > 0 && (
+              <div className="px-4 py-2.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-center min-w-[70px] shadow-inner">
+                <div className="text-[10px] uppercase font-bold tracking-wider text-rose-400">
+                  Delayed
+                </div>
+                <div className="text-xl font-black text-rose-300">{stats.delayed}</div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -196,32 +212,32 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
       {/* Cascade Alerts Banner */}
       {alerts.length > 0 && (
         <div
-          className="p-5 rounded-3xl bg-amber-950/40 border border-amber-500/40 backdrop-blur-md space-y-4"
+          className="p-5 sm:p-6 rounded-3xl bg-amber-950/40 border border-amber-500/50 backdrop-blur-xl space-y-4 shadow-xl"
           role="region"
           aria-label="Cascade schedule alerts"
         >
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold text-base shrink-0">
+          <div className="flex items-start gap-3.5">
+            <div className="w-9 h-9 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center justify-center font-bold text-lg shrink-0 shadow-inner">
               ⚡
             </div>
             <div className="flex-1">
-              <h3 className="text-base font-semibold text-amber-200">
+              <h3 className="text-base font-bold text-amber-200">
                 Topological Cascade Alerts ({alerts.length})
               </h3>
-              <p className="text-xs text-amber-300/80 mt-0.5">
-                Upstream slips dynamically push dependent tasks forward. Review impacted milestones
-                below:
+              <p className="text-xs text-amber-300/80 mt-0.5 leading-relaxed">
+                Upstream delays automatically shift dependent downstream deliverables forward in
+                time. Review impacted milestones below:
               </p>
-              <ul className="mt-2.5 space-y-1.5 text-xs text-amber-200">
+              <ul className="mt-3 space-y-2 text-xs text-amber-200">
                 {alerts.slice(0, 3).map((a, idx) => (
-                  <li key={idx} className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                  <li key={idx} className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
                     <span>{a.message}</span>
                   </li>
                 ))}
                 {alerts.length > 3 && (
-                  <li className="text-amber-400/80 font-medium">
-                    + {alerts.length - 3} more affected tasks
+                  <li className="text-amber-300/90 font-semibold pl-4">
+                    + {alerts.length - 3} additional downstream milestones shifted
                   </li>
                 )}
               </ul>
@@ -230,15 +246,15 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
 
           {/* Actionable Recovery Interventions */}
           {recoveryOptions.length > 0 && (
-            <div className="pt-3 border-t border-amber-500/20">
-              <div className="text-xs font-semibold text-amber-300 mb-2">
+            <div className="pt-3.5 border-t border-amber-500/25">
+              <div className="text-xs font-bold uppercase tracking-wider text-amber-300 mb-2.5">
                 Suggested Recovery Interventions:
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {recoveryOptions.map((opt) => (
                   <div
                     key={opt.id}
-                    className="p-3 rounded-2xl bg-slate-900/80 border border-amber-500/30 flex items-center justify-between gap-3"
+                    className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 flex items-center justify-between gap-3 shadow-md"
                   >
                     <div>
                       <div className="text-xs font-bold text-white">{opt.title}</div>
@@ -249,7 +265,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                     <button
                       type="button"
                       onClick={() => handleApplyRecovery(opt)}
-                      className="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors shrink-0 cursor-pointer shadow-md"
+                      className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold text-xs hover:from-amber-300 hover:to-amber-400 transition-all shadow-md shrink-0 cursor-pointer active:scale-95"
                     >
                       Apply Fix
                     </button>
@@ -262,7 +278,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
       )}
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
+      <div className="flex flex-wrap items-center gap-2 border-b border-slate-800/80 pb-3">
         {(
           [
             { id: "all", label: "All Tasks", count: stats.total },
@@ -276,16 +292,16 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
             key={tab.id}
             type="button"
             onClick={() => setFilter(tab.id)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
               filter === tab.id
-                ? "bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 border border-indigo-500/50"
-                : "bg-slate-900/60 text-slate-200 hover:text-white hover:bg-slate-800/60 border border-slate-800"
+                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/20"
+                : "bg-slate-900/70 text-slate-300 hover:text-white hover:bg-slate-800/80 border border-slate-800"
             }`}
           >
             <span>{tab.label}</span>
             <span
-              className={`px-1.5 py-0.2 rounded-md text-[10px] ${
-                filter === tab.id ? "bg-white/20 text-white" : "bg-slate-800 text-slate-200"
+              className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold ${
+                filter === tab.id ? "bg-slate-950/30 text-slate-950" : "bg-slate-800 text-slate-300"
               }`}
             >
               {tab.count}
@@ -309,45 +325,45 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
             <div
               key={task.taskId}
               data-testid={`task-item-${task.taskId}`}
-              className={`p-5 rounded-3xl border transition-all ${
+              className={`p-5 sm:p-6 rounded-3xl border transition-all ${
                 task.status === "done"
-                  ? "bg-slate-900/40 border-slate-800/60"
+                  ? "bg-slate-900/40 border-slate-800/60 opacity-80"
                   : task.pastEvent
-                    ? "bg-rose-950/20 border-rose-500/40 shadow-rose-950/20 shadow-lg"
+                    ? "bg-rose-950/20 border-rose-500/50 shadow-rose-950/20 shadow-xl"
                     : task.missesDeadline
-                      ? "bg-amber-950/20 border-amber-500/40 shadow-amber-950/20 shadow-lg"
-                      : "bg-slate-900/60 border-slate-800 hover:border-slate-700/80 shadow-lg"
+                      ? "bg-amber-950/20 border-amber-500/50 shadow-amber-950/20 shadow-xl"
+                      : "glass-card hover:border-slate-700/90 shadow-xl"
               }`}
             >
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
                 {/* Task Details */}
-                <div className="space-y-1.5 flex-1">
+                <div className="space-y-2 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-base font-bold text-white tracking-tight">
+                    <span className="text-base sm:text-lg font-bold text-white tracking-tight">
                       {task.title}
                     </span>
-                    <span className="px-2 py-0.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700">
+                    <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-slate-800/90 text-slate-300 border border-slate-700">
                       {task.category}
                     </span>
 
                     {/* Status Pill */}
                     {task.status === "done" && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         ✓ Completed
                       </span>
                     )}
                     {task.status === "delayed" && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
                         +{task.delayDays}d Delayed
                       </span>
                     )}
                     {task.status === "in_progress" && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">
                         In Progress
                       </span>
                     )}
                     {task.status === "todo" && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700">
+                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-800/80 text-slate-400 border border-slate-700">
                         To Do
                       </span>
                     )}
@@ -355,46 +371,46 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
 
                   {/* Predecessors */}
                   {prereqTitles && (
-                    <div className="text-xs flex items-center gap-1.5">
+                    <div className="text-xs flex items-center gap-1.5 flex-wrap">
                       <span className="text-slate-400 font-medium">Prerequisites:</span>
-                      <span className="text-slate-200 italic">{prereqTitles}</span>
+                      <span className="text-amber-200/90 font-medium italic">{prereqTitles}</span>
                     </div>
                   )}
 
                   {/* Warning Flags */}
                   {task.pastEvent && (
-                    <div className="text-xs font-semibold text-rose-400 flex items-center gap-1">
+                    <div className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
                       <span>🚨 Finishes after the celebration date!</span>
                     </div>
                   )}
                   {!task.pastEvent && task.missesDeadline && (
-                    <div className="text-xs font-semibold text-amber-400 flex items-center gap-1">
+                    <div className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
                       <span>⚠️ Buffer depleted: finishes after recommended deadline</span>
                     </div>
                   )}
                 </div>
 
-                {/* Scheduling Windows */}
+                {/* Scheduling Windows & Actions */}
                 <div className="flex flex-wrap items-center gap-4 text-xs">
                   {/* Primary: Deadline (Latest End) */}
-                  <div className="p-3 rounded-2xl bg-slate-800/70 border border-slate-700/60 min-w-[140px]">
-                    <div className="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">
+                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 min-w-[150px] shadow-sm">
+                    <div className="text-[10px] text-slate-300 uppercase tracking-wider font-bold">
                       Latest Deadline
                     </div>
-                    <div className="text-sm font-bold text-white mt-0.5">
+                    <div className="text-sm font-black text-white mt-0.5">
                       {formatDisplayDate(task.latestEnd)}
                     </div>
                     <div className="mt-1">
                       {task.slackDays > 3 ? (
-                        <span className="text-[10px] font-semibold text-emerald-400">
+                        <span className="text-[11px] font-bold text-emerald-400">
                           Buffer: +{task.slackDays} days
                         </span>
                       ) : task.slackDays >= 0 ? (
-                        <span className="text-[10px] font-semibold text-amber-400">
+                        <span className="text-[11px] font-bold text-amber-400">
                           Critical: {task.slackDays}d buffer
                         </span>
                       ) : (
-                        <span className="text-[10px] font-semibold text-rose-400">
+                        <span className="text-[11px] font-bold text-rose-400">
                           Breach: {Math.abs(task.slackDays)}d late
                         </span>
                       )}
@@ -402,14 +418,14 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                   </div>
 
                   {/* Secondary: Earliest Window */}
-                  <div className="p-3 rounded-2xl bg-slate-800/40 border border-slate-700/40 min-w-[140px]">
-                    <div className="text-[10px] text-slate-300 uppercase tracking-wider font-semibold">
+                  <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 min-w-[150px] shadow-sm">
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
                       Earliest Window
                     </div>
-                    <div className="text-xs font-medium text-slate-200 mt-0.5">
+                    <div className="text-xs font-bold text-slate-200 mt-0.5">
                       {formatDisplayDate(task.earliestStart)}
                     </div>
-                    <div className="text-[10px] text-slate-300">
+                    <div className="text-[10px] text-slate-400">
                       thru {formatDisplayDate(task.earliestEnd)} ({task.durationDays}d duration)
                     </div>
                   </div>
@@ -421,7 +437,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                         type="button"
                         onClick={() => handleMarkDone(task.taskId, task.title)}
                         aria-label={`Done: Mark ${task.title} as completed`}
-                        className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md transition-colors cursor-pointer"
+                        className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-extrabold text-xs shadow-md shadow-emerald-500/20 transition-all cursor-pointer active:scale-95"
                       >
                         ✓ Done
                       </button>
@@ -430,7 +446,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                         type="button"
                         onClick={() => handleClearDelay(task.taskId, task.title)}
                         aria-label={`Reopen: Reopen ${task.title}`}
-                        className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors cursor-pointer"
                       >
                         Reopen
                       </button>
@@ -441,7 +457,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                       type="button"
                       onClick={() => handleAddDelay(task.taskId, task.title, 7, task.delayDays)}
                       aria-label={`+7d Delay: Simulate 7 days delay for ${task.title}`}
-                      className="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 hover:border-rose-500/40 border border-slate-700 font-semibold text-xs transition-all cursor-pointer"
+                      className="px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-rose-950/40 text-slate-300 hover:text-rose-300 hover:border-rose-500/50 border border-slate-700 font-bold text-xs transition-all cursor-pointer active:scale-95"
                     >
                       +7d Delay
                     </button>
@@ -451,7 +467,7 @@ export function TimelineView({ plan: propPlan }: TimelineViewProps) {
                         type="button"
                         onClick={() => handleClearDelay(task.taskId, task.title)}
                         aria-label={`Reset Delay: Clear delay on ${task.title}`}
-                        className="px-2.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 font-semibold text-xs transition-colors cursor-pointer"
+                        className="px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-700 font-bold text-xs transition-colors cursor-pointer"
                       >
                         Reset Delay
                       </button>

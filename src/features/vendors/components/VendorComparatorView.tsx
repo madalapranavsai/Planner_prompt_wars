@@ -127,24 +127,27 @@ export function VendorComparatorView() {
   return (
     <div className="space-y-8">
       {/* Header & Controls */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 backdrop-blur-md shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div className="glass-panel p-6 sm:p-8 rounded-3xl relative overflow-hidden shadow-2xl space-y-6">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">📋</span>
-              <h2 className="text-xl font-bold text-slate-100">Vendor Quote Comparator</h2>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">📋</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Vendor Quote Comparator
+              </h2>
             </div>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-slate-300 max-w-2xl leading-relaxed">
               Paste raw quotes from WhatsApp, emails, or PDFs. AI unbundles base costs, per-guest
               charges, and hidden GST to calculate honest totals and reveal gotchas.
             </p>
           </div>
           {targetLine && (
-            <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-3 text-right">
-              <span className="text-[11px] font-semibold text-slate-400 block uppercase">
+            <div className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-3.5 text-right shadow-inner">
+              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
                 {targetLine.label} Budget
               </span>
-              <span className="text-sm font-bold text-amber-400">
+              <span className="text-base sm:text-lg font-black text-amber-300">
                 {formatINR(targetLine.amount)}
               </span>
             </div>
@@ -153,7 +156,7 @@ export function VendorComparatorView() {
 
         {/* Category & Preset Selectors */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <label
               htmlFor="vendor-category-select"
               className="text-xs font-bold uppercase tracking-wider text-slate-400"
@@ -164,7 +167,7 @@ export function VendorComparatorView() {
               id="vendor-category-select"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value as BudgetCategory)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-200 focus:border-amber-500 focus:outline-none"
+              className="w-full rounded-2xl border border-slate-700/80 bg-slate-950/90 px-4 py-3 text-sm font-semibold text-slate-200 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 shadow-inner"
             >
               <option value="venue">Venue & Hall</option>
               <option value="catering">Catering & Food</option>
@@ -174,18 +177,18 @@ export function VendorComparatorView() {
             </select>
           </div>
 
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Load Sample Raw Quotes
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setSelectedCategory("venue");
                   setRawQuotes(SAMPLE_VENUE_QUOTES);
                 }}
-                className="flex-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 hover:text-amber-300 transition-colors"
+                className="flex-1 rounded-2xl border border-slate-700/80 bg-slate-900/80 px-4 py-3 text-xs font-bold text-slate-200 hover:bg-slate-800 hover:text-amber-300 hover:border-amber-400/50 transition-all cursor-pointer active:scale-95 shadow-sm"
               >
                 Sample Venue Quotes
               </button>
@@ -195,7 +198,7 @@ export function VendorComparatorView() {
                   setSelectedCategory("catering");
                   setRawQuotes(SAMPLE_CATERING_QUOTES);
                 }}
-                className="flex-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-700 hover:text-amber-300 transition-colors"
+                className="flex-1 rounded-2xl border border-slate-700/80 bg-slate-900/80 px-4 py-3 text-xs font-bold text-slate-200 hover:bg-slate-800 hover:text-amber-300 hover:border-amber-400/50 transition-all cursor-pointer active:scale-95 shadow-sm"
               >
                 Sample Catering Quotes
               </button>
@@ -218,7 +221,7 @@ export function VendorComparatorView() {
             onChange={(e) => setRawQuotes(e.target.value)}
             placeholder="Paste raw vendor messages with prices, deliverables, advance terms, and GST details..."
             disabled={loading}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 disabled:opacity-50"
+            className="w-full rounded-2xl border border-slate-700/80 bg-slate-950/90 px-5 py-3.5 text-sm text-slate-100 placeholder-slate-500 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 disabled:opacity-50 shadow-inner"
           />
         </div>
 
@@ -230,10 +233,10 @@ export function VendorComparatorView() {
 
         {confirmSuccessMsg && (
           <div
-            className="rounded-xl border border-emerald-500/40 bg-emerald-950/40 p-3 text-xs text-emerald-300 font-medium flex items-center gap-2"
+            className="rounded-2xl border border-emerald-500/50 bg-emerald-950/40 p-3.5 text-xs text-emerald-300 font-bold flex items-center gap-2 shadow-lg"
             role="status"
           >
-            <span>✓</span>
+            <span className="text-base">✓</span>
             <span>{confirmSuccessMsg}</span>
           </div>
         )}
@@ -243,7 +246,7 @@ export function VendorComparatorView() {
             type="button"
             onClick={handleCompare}
             disabled={loading || !rawQuotes.trim()}
-            className="rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-2.5 text-sm font-bold text-slate-950 hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 cursor-pointer"
+            className="rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-7 py-3.5 text-sm font-extrabold text-slate-950 hover:from-amber-400 hover:to-amber-500 shadow-xl shadow-amber-500/20 transition-all active:scale-95 disabled:opacity-50 flex items-center gap-2 cursor-pointer"
             aria-label="Unbundle & Compare Quotes: Extract and compare vendor quotes"
           >
             {loading ? (
@@ -265,12 +268,12 @@ export function VendorComparatorView() {
       {comparisonResult && (
         <div className="space-y-6">
           {/* Executive Summary */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-2">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-              <span>💡</span>
+          <div className="glass-panel p-6 rounded-3xl space-y-2.5 shadow-xl border border-amber-500/20">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-amber-300 flex items-center gap-2">
+              <span className="text-base">💡</span>
               <span>Comparative Verdict</span>
             </h3>
-            <p className="text-sm text-slate-200 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
               {comparisonResult.comparison.summary}
             </p>
           </div>
@@ -285,40 +288,42 @@ export function VendorComparatorView() {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 flex flex-col justify-between space-y-5 shadow-lg relative"
+                  className="glass-card p-6 rounded-3xl flex flex-col justify-between space-y-6 shadow-2xl relative overflow-hidden"
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {/* Header */}
-                    <div className="flex items-start justify-between gap-2 border-b border-slate-800 pb-3">
+                    <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-3.5">
                       <div>
-                        <span className="text-xs text-slate-400 font-mono">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 font-mono">
                           Vendor Option #{idx + 1}
                         </span>
-                        <h4 className="text-lg font-bold text-white">{quote.vendorName}</h4>
+                        <h4 className="text-xl font-extrabold text-white tracking-tight mt-0.5">
+                          {quote.vendorName}
+                        </h4>
                       </div>
                       {quote.suspiciousInstructionsDetected && (
-                        <span className="rounded-full bg-rose-950/80 border border-rose-500/40 px-2 py-0.5 text-[10px] font-bold text-rose-300">
+                        <span className="rounded-full bg-rose-950/90 border border-rose-500/50 px-2.5 py-0.5 text-[10px] font-bold text-rose-300">
                           🛡️ Untrusted Script Fenced
                         </span>
                       )}
                     </div>
 
                     {/* Calculated Honest Total */}
-                    <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 flex items-baseline justify-between">
+                    <div className="rounded-2xl border border-slate-800 bg-slate-950/80 p-4 flex items-baseline justify-between shadow-inner">
                       <div>
-                        <span className="text-xs text-slate-400 block font-medium">
+                        <span className="text-xs text-slate-400 block font-semibold">
                           Calculated True Cost ({guestCount} guests)
                         </span>
-                        <span className="text-2xl font-black text-white">
+                        <span className="text-2xl sm:text-3xl font-black text-white mt-1 block">
                           {total !== null ? formatINR(total) : "Incomplete Pricing"}
                         </span>
                       </div>
                       {targetLine && total !== null && (
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-bold ${
+                          className={`rounded-full px-3 py-1 text-xs font-extrabold shadow-sm ${
                             isOverBudget
-                              ? "bg-rose-950/80 text-rose-300 border border-rose-500/40"
-                              : "bg-emerald-950/80 text-emerald-300 border border-emerald-500/40"
+                              ? "bg-rose-950/80 text-rose-300 border border-rose-500/50"
+                              : "bg-emerald-950/80 text-emerald-300 border border-emerald-500/50"
                           }`}
                         >
                           {isOverBudget
@@ -329,15 +334,15 @@ export function VendorComparatorView() {
                     </div>
 
                     {/* Cost Breakdown */}
-                    <div className="space-y-1.5 text-xs">
+                    <div className="space-y-2 text-xs">
                       <span className="font-bold uppercase tracking-wider text-slate-400 block">
                         Itemized Pricing
                       </span>
-                      <div className="space-y-1 bg-slate-800/40 rounded-xl p-3 border border-slate-800">
+                      <div className="space-y-1.5 bg-slate-950/60 rounded-2xl p-3.5 border border-slate-800/80 shadow-inner">
                         {quote.baseCost !== null && (
                           <div className="flex justify-between text-slate-300">
                             <span>Base Package / Rental:</span>
-                            <span className="font-mono">{formatINR(quote.baseCost)}</span>
+                            <span className="font-mono font-bold">{formatINR(quote.baseCost)}</span>
                           </div>
                         )}
                         {quote.perGuestCost !== null && (
@@ -345,7 +350,7 @@ export function VendorComparatorView() {
                             <span>
                               Per Guest ({formatINR(quote.perGuestCost)} × {guestCount}):
                             </span>
-                            <span className="font-mono">
+                            <span className="font-mono font-bold">
                               {formatINR(quote.perGuestCost * guestCount)}
                             </span>
                           </div>
@@ -353,7 +358,7 @@ export function VendorComparatorView() {
                         {quote.charges.map((c, cIdx) => (
                           <div key={cIdx} className="flex justify-between text-slate-400">
                             <span>{c.label}:</span>
-                            <span className="font-mono">
+                            <span className="font-mono font-semibold">
                               {c.amount !== null
                                 ? formatINR(c.amount)
                                 : c.percent !== null
@@ -367,14 +372,14 @@ export function VendorComparatorView() {
 
                     {/* Included Deliverables */}
                     {quote.includedItems.length > 0 && (
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                           Included Deliverables
                         </span>
-                        <ul className="text-xs text-emerald-300/90 space-y-1">
+                        <ul className="text-xs text-emerald-300 space-y-1.5">
                           {quote.includedItems.map((item, iIdx) => (
-                            <li key={iIdx} className="flex items-start gap-1.5">
-                              <span className="text-emerald-400">✓</span>
+                            <li key={iIdx} className="flex items-start gap-2">
+                              <span className="text-emerald-400 font-bold">✓</span>
                               <span className="text-slate-200">{item}</span>
                             </li>
                           ))}
@@ -384,19 +389,19 @@ export function VendorComparatorView() {
 
                     {/* Missing / Ambiguous Items */}
                     {(quote.missingItems.length > 0 || quote.ambiguities.length > 0) && (
-                      <div className="space-y-1">
+                      <div className="space-y-2">
                         <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
                           Missing Items & Ambiguities
                         </span>
-                        <ul className="text-xs text-amber-300 space-y-1">
+                        <ul className="text-xs text-amber-300 space-y-1.5">
                           {quote.missingItems.map((m, mIdx) => (
-                            <li key={mIdx} className="flex items-start gap-1.5">
+                            <li key={mIdx} className="flex items-start gap-2">
                               <span>⚠️</span>
                               <span className="text-slate-300">Missing: {m}</span>
                             </li>
                           ))}
                           {quote.ambiguities.map((a, aIdx) => (
-                            <li key={aIdx} className="flex items-start gap-1.5">
+                            <li key={aIdx} className="flex items-start gap-2">
                               <span>❓</span>
                               <span className="text-slate-300">Ambiguity: {a}</span>
                             </li>
@@ -412,7 +417,7 @@ export function VendorComparatorView() {
                       type="button"
                       onClick={() => totalInfo && handleLockQuote(quote, totalInfo)}
                       disabled={!totalInfo?.total || !targetLine}
-                      className="w-full rounded-xl bg-slate-800 hover:bg-emerald-600 hover:text-slate-950 border border-slate-700 py-2.5 text-xs font-bold text-slate-200 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+                      className="w-full rounded-2xl bg-slate-800/90 hover:bg-emerald-500 hover:text-slate-950 border border-slate-700 py-3 text-xs font-extrabold text-slate-200 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-95 shadow-md"
                       aria-label={`Lock Contract & Rebalance: Select ${quote.vendorName} and rebalance budget`}
                     >
                       <span>🔒 Lock Contract & Rebalance</span>
@@ -425,14 +430,14 @@ export function VendorComparatorView() {
 
           {/* Pre-Contract Inquiry Checklist */}
           {comparisonResult.comparison.questionsToAsk.length > 0 && (
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-5 space-y-3">
-              <div className="flex items-center gap-2 text-amber-300">
-                <span className="text-lg">❓</span>
-                <h3 className="font-bold text-sm uppercase tracking-wider">
+            <div className="rounded-3xl border border-amber-500/40 bg-amber-950/25 p-6 space-y-3.5 shadow-xl">
+              <div className="flex items-center gap-2.5 text-amber-300">
+                <span className="text-xl">❓</span>
+                <h3 className="font-extrabold text-sm uppercase tracking-wider">
                   Critical Pre-Signing Negotiation Questions
                 </h3>
               </div>
-              <ul className="list-disc list-inside space-y-1.5 text-sm text-slate-200">
+              <ul className="list-disc list-inside space-y-2 text-sm text-slate-200 leading-relaxed">
                 {comparisonResult.comparison.questionsToAsk.map((q, qIdx) => (
                   <li key={qIdx}>{q}</li>
                 ))}
