@@ -24,6 +24,7 @@ export interface TaskUpdate {
   taskId: string;
   status?: Task["status"];
   delayDays?: number;
+  durationDays?: number;
   completedOn?: IsoDate;
 }
 
@@ -48,6 +49,7 @@ export function applyTaskUpdate(
     if (t.id !== update.taskId) return { ...t };
 
     const newDelay = update.delayDays ?? t.delayDays;
+    const newDuration = update.durationDays ?? t.durationDays;
     let newStatus = update.status ?? t.status;
 
     // Enforce invariant: status "delayed" <=> delayDays > 0
@@ -60,6 +62,7 @@ export function applyTaskUpdate(
     return {
       ...t,
       status: newStatus,
+      durationDays: newDuration,
       delayDays: newDelay,
       completedOn: update.completedOn ?? t.completedOn,
     };

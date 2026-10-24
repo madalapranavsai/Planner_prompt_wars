@@ -51,3 +51,31 @@ export function maxIsoDate(a: IsoDate, b: IsoDate): IsoDate {
 export function minIsoDate(a: IsoDate, b: IsoDate): IsoDate {
   return a <= b ? a : b;
 }
+
+/**
+ * Returns current UTC/local day in YYYY-MM-DD format.
+ */
+export function todayIsoDate(): IsoDate {
+  const now = new Date();
+  const y = now.getUTCFullYear();
+  const m = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(now.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+/**
+ * Formats YYYY-MM-DD into readable Indian English (e.g. "15 Dec 2026").
+ */
+export function formatDisplayDate(dateStr: IsoDate): string {
+  const [yearStr, monthStr, dayStr] = dateStr.split("-");
+  const year = parseInt(yearStr ?? "1970", 10);
+  const month = parseInt(monthStr ?? "1", 10) - 1;
+  const day = parseInt(dayStr ?? "1", 10);
+  const date = new Date(Date.UTC(year, month, day));
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}

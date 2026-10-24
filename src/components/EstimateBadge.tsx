@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 export interface EstimateBadgeProps {
   source: "ai_estimate" | "confirmed_quote";
-  confidence?: "low" | "medium" | "high";
-  className?: string;
+  confidence?: "low" | "medium" | "high" | undefined;
+  className?: string | undefined;
 }
 
 export function EstimateBadge({ source, confidence, className }: EstimateBadgeProps) {
@@ -19,7 +19,10 @@ export function EstimateBadge({ source, confidence, className }: EstimateBadgePr
           className,
         )}
       >
-        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+        <CheckCircle2
+          className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"
+          aria-hidden="true"
+        />
         <span>Confirmed Quote</span>
       </span>
     );
