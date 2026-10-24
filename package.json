@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check:ai": "tsx scripts/checkAi.ts"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
@@ -23,6 +24,7 @@
     "next": "16.4.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.7",
     "zustand": "^5.0.16"
@@ -49,6 +51,7 @@
     "prettier": "^3.9.10",
     "secretlint": "^13.0.7",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.0.5",
     "vitest-axe": "^0.1.0"
